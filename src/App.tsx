@@ -1,5 +1,6 @@
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import NewPlace from "./places/pages/NewPlace";
+import UserItem from "./user/components/UserItem";
 import Users from "./user/pages/Users";
 
 function App() {
