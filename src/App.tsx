@@ -4,6 +4,7 @@ import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import NewPlace from "./places/pages/NewPlace";
 import UserItem from "./user/components/UserItem";
 import Users from "./user/pages/Users";
+import UserPlaces from "./places/pages/UserPlaces";
 
 function App() {
     return (
@@ -14,11 +15,13 @@ function App() {
                     <Route path="/" exact>
                         <Users />
                     </Route>
-                    <Route path="/user" exact></Route>
+                    <Route path="/:userId/places" exact>
+                        <UserPlaces />
+                    </Route>
                     <Route path="/places/new" exact>
                         <NewPlace />
                     </Route>
-                    {/* <Redirect to="/" /> */}
+                    <Redirect to="/" />
                 </Switch>
             </main>
         </BrowserRouter>
