@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import Avatar from "../../shared/components/UI/Avatar";
 import Card from "../../shared/components/UI/Card";
-import classes from "./style/css/UserItem.module.css";
+import classes from "./UserItem.module.css";
 
 interface UserItemProps {
     id: string;

@@ -1,4 +1,4 @@
-import classes from "./style/css/UserList.module.css";
+import classes from "./UserList.module.css";
 import UserItem from "./UserItem";
 import Card from "../../shared/components/UI/Card";
 

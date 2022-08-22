@@ -1,6 +1,6 @@
 import React from "react";
 
-import classes from "./style/Avatar.module.css";
+import classes from "./Avatar.module.css";
 
 interface AvatarProps {
     className?: string;
