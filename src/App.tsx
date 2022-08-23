@@ -2,7 +2,6 @@ import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import NewPlace from "./places/pages/NewPlace";
-import UserItem from "./user/components/UserItem";
 import Users from "./user/pages/Users";
 import UserPlaces from "./places/pages/UserPlaces";
 
