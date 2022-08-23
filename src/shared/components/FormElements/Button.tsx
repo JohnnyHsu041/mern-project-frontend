@@ -7,13 +7,13 @@ interface ButtonProps {
     children: React.ReactNode;
     href?: string;
     size?: string;
-    inverse?: any;
-    danger?: any;
+    inverse?: boolean;
+    danger?: boolean;
     to?: string;
-    exact?: any;
+    exact?: boolean;
     type?: "button" | "submit" | "reset";
     onClick?: (event: React.MouseEvent<HTMLElement>) => void;
-    disabled?: any;
+    disabled?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = (props) => {
