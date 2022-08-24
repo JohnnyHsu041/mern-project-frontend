@@ -4,6 +4,7 @@ import {
     FormState,
     Action,
     InputHandler,
+    SetDataHandler,
 } from "./types/form-hook-types";
 
 const formReducer = (state: FormState, action: Action) => {
@@ -31,6 +32,12 @@ const formReducer = (state: FormState, action: Action) => {
                 isValid: formIsValid,
             };
 
+        case "SET_DATA":
+            return {
+                inputs: action.inputs,
+                isValid: action.isValid,
+            };
+
         default:
             return state;
     }
@@ -39,7 +46,7 @@ const formReducer = (state: FormState, action: Action) => {
 export const useForm = (
     initialInputs: InputsObj,
     initialFormValidity: boolean
-): [FormState, InputHandler] => {
+): [FormState, InputHandler, SetDataHandler] => {
     const [formState, dispatch] = useReducer(formReducer, {
         inputs: initialInputs,
         isValid: initialFormValidity,
@@ -52,5 +59,16 @@ export const useForm = (
         []
     );
 
-    return [formState, inputHandler];
+    const setForm = useCallback(
+        (inputData: InputsObj, formValidity: boolean) => {
+            dispatch({
+                type: "SET_DATA",
+                inputs: inputData,
+                isValid: formValidity,
+            });
+        },
+        []
+    );
+
+    return [formState, inputHandler, setForm];
 };
