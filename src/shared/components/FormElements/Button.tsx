@@ -5,13 +5,13 @@ import classes from "./Button.module.css";
 
 interface ButtonProps {
     children: React.ReactNode;
+    type?: "button" | "submit" | "reset";
     href?: string;
     size?: string;
     inverse?: boolean;
     danger?: boolean;
     to?: string;
     exact?: boolean;
-    type?: "button" | "submit" | "reset";
     onClick?: (event: React.MouseEvent<HTMLElement>) => void;
     disabled?: boolean;
 }

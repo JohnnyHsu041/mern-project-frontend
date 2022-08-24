@@ -1,17 +1,20 @@
-import React, { useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 
 import { validate } from "../../utils/validators";
 import classes from "./Input.module.css";
 
 interface InputProps {
-    element?: string;
-    id?: string;
+    id: string;
+    element: string;
+    onInput: (id: string, val: string, isValid: boolean) => void;
+    validators: { type: string; val?: number }[];
+    label: string;
+    errorText: string;
     type?: string;
     placeholder?: string;
     rows?: number;
-    label?: string;
-    errorText?: string;
-    validators: { type: string; val?: number }[];
+    inputValue?: string;
+    valid?: boolean;
 }
 
 type inputState = {
@@ -20,20 +23,19 @@ type inputState = {
     isTouched: boolean;
 };
 
-const inputReducer = (
-    state: inputState,
-    action: {
-        type: string;
-        val: string;
-        validators: { type: string; val?: number }[];
-    }
-) => {
+type Action = {
+    type: string;
+    val: string;
+    validators: { type: string; val?: number }[];
+};
+
+const inputReducer = (state: inputState, action: Action) => {
     switch (action.type) {
         case "CHANGE":
             return {
                 ...state,
                 value: action.val,
-                isValid: validate(action.val!, action.validators!),
+                isValid: validate(action.val, action.validators),
             };
 
         case "TOUCHED":
@@ -56,12 +58,21 @@ const Input: React.FC<InputProps> = ({
     label,
     errorText,
     validators,
+    onInput,
+    inputValue,
+    valid,
 }) => {
     const [enteredInput, dispatch] = useReducer(inputReducer, {
-        value: "",
-        isValid: false,
+        value: inputValue || "",
+        isValid: valid || false,
         isTouched: false,
     });
+
+    const { value, isValid } = enteredInput;
+
+    useEffect(() => {
+        onInput(id, value, isValid);
+    }, [id, onInput, value, isValid]);
 
     const changeHandler = (
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -93,6 +104,7 @@ const Input: React.FC<InputProps> = ({
                 rows={rows || 3}
                 value={enteredInput.value}
                 onBlur={touchHandler}
+                onChange={changeHandler}
             />
         );
 

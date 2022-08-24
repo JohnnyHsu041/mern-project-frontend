@@ -43,7 +43,7 @@ const DUMMY_PLACES = [
 ];
 
 const UserPlaces: React.FC = () => {
-    const userId = useParams<{ userId?: string }>().userId;
+    const userId = useParams<{ userId: string }>().userId;
     const loadedPlace = DUMMY_PLACES.filter(
         (place) => place.creatorId === userId
     );
