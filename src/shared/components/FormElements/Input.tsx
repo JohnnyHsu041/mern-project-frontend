@@ -13,8 +13,8 @@ interface InputProps {
     type?: string;
     placeholder?: string;
     rows?: number;
-    inputValue?: string;
-    valid?: boolean;
+    initialValue?: string;
+    initialIsValid?: boolean;
 }
 
 type inputState = {
@@ -59,12 +59,12 @@ const Input: React.FC<InputProps> = ({
     errorText,
     validators,
     onInput,
-    inputValue,
-    valid,
+    initialValue,
+    initialIsValid,
 }) => {
     const [enteredInput, dispatch] = useReducer(inputReducer, {
-        value: inputValue || "",
-        isValid: valid || false,
+        value: initialValue || "",
+        isValid: initialIsValid || false,
         isTouched: false,
     });
 
