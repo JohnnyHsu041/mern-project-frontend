@@ -1,5 +1,5 @@
 export type InputsObj = {
-    [props: string]: { value: string; isValid: boolean };
+    [props: string]: { value: string; isValid: boolean } | undefined;
 };
 
 export type FormState = {

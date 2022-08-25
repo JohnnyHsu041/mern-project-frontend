@@ -23,11 +23,17 @@ type inputState = {
     isTouched: boolean;
 };
 
-type Action = {
-    type: string;
+interface ChangeAction {
+    type: "CHANGE";
     val: string;
     validators: { type: string; val?: number }[];
-};
+}
+
+interface TouchedAction {
+    type: "TOUCHED";
+}
+
+type Action = ChangeAction | TouchedAction;
 
 const inputReducer = (state: inputState, action: Action) => {
     switch (action.type) {
@@ -85,7 +91,7 @@ const Input: React.FC<InputProps> = ({
     };
 
     const touchHandler = () => {
-        dispatch({ type: "TOUCHED", val: "", validators: [{ type: "" }] });
+        dispatch({ type: "TOUCHED" });
     };
 
     const renderElement =
