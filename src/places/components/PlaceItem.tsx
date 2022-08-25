@@ -6,6 +6,8 @@ import classes from "./PlaceItem.module.css";
 import PlaceInfo from "../../models/placeinfo";
 import Button from "../../shared/components/FormElements/Button";
 import Map from "../../shared/components/UI/Map";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 const PlaceItem: React.FC<PlaceInfo> = ({
     id,
@@ -18,6 +20,8 @@ const PlaceItem: React.FC<PlaceInfo> = ({
 }) => {
     const [showMap, setShowMap] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+    const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
 
     const showMapHandler = () => setShowMap(true);
     const closeMapHandler = () => setShowMap(false);
@@ -78,10 +82,14 @@ const PlaceItem: React.FC<PlaceInfo> = ({
                         <Button inverse onClick={showMapHandler}>
                             VIEW ON MAP
                         </Button>
-                        <Button to={`/places/${id}`}>EDIT</Button>
-                        <Button danger onClick={showDeleteModalHandler}>
-                            DELETE
-                        </Button>
+                        {isLoggedIn && (
+                            <Button to={`/places/${id}`}>EDIT</Button>
+                        )}
+                        {isLoggedIn && (
+                            <Button danger onClick={showDeleteModalHandler}>
+                                DELETE
+                            </Button>
+                        )}
                     </div>
                 </Card>
             </li>

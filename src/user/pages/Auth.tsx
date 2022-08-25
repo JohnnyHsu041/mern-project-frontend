@@ -1,17 +1,22 @@
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+
 import Input from "../../shared/components/FormElements/Input";
 import Card from "../../shared/components/UI/Card";
-import classes from "./Auth.module.css";
+import { useForm } from "../../shared/hooks/form-hook";
+import Button from "../../shared/components/FormElements/Button";
+import { AuthAction } from "../../store/auth-slice";
 import {
     VALIDATOR_EMAIL,
     VALIDATOR_MINLENGTH,
     VALIDATOR_REQUIRE,
 } from "../../shared/utils/validators";
-import { useForm } from "../../shared/hooks/form-hook";
-import Button from "../../shared/components/FormElements/Button";
-import { useState } from "react";
+
+import classes from "./Auth.module.css";
 
 const Auth: React.FC = () => {
     const [isLoginMode, setIsLoginMode] = useState(true);
+    const dispatch = useDispatch();
 
     const [formState, inputHandler, setForm] = useForm(
         {
@@ -57,11 +62,15 @@ const Auth: React.FC = () => {
     const authSubmitHandler = (event: React.FormEvent) => {
         event.preventDefault();
         console.log(formState.inputs);
+
+        if (formState.isValid) {
+            dispatch(AuthAction.login());
+        }
     };
 
     return (
         <Card className={classes.authentication}>
-            <h2>{isLoginMode ? "Login Required" : "Sign up"}</h2>
+            <h2>Login Required</h2>
             <hr />
             <form onSubmit={authSubmitHandler}>
                 {!isLoginMode && (
