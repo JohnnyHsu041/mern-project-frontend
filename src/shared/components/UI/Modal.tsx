@@ -4,18 +4,17 @@ import { CSSTransition } from "react-transition-group";
 
 import Backdrop from "../UI/Backdrop";
 import classes from "./Modal.module.css";
-import "../../../index.css";
 
 type StyleObj = {
     [props: string]: string;
 };
 
-interface ModalProps<T> {
+interface ModalProps {
     show: boolean;
     onCancel: (event: React.MouseEvent) => void;
     className?: string;
     headerClass?: string;
-    style?: T;
+    style?: StyleObj;
     header?: string;
     onSubmit?: (event: React.FormEvent) => void;
     contentClass?: string;
@@ -24,7 +23,7 @@ interface ModalProps<T> {
     footer?: string | JSX.Element;
 }
 
-const ModalOverlay: React.FC<ModalProps<StyleObj>> = (props) => {
+const ModalOverlay: React.FC<ModalProps> = (props) => {
     const content = (
         <div
             className={`${classes.modal} ${props.className}`}
@@ -62,7 +61,7 @@ const ModalOverlay: React.FC<ModalProps<StyleObj>> = (props) => {
     );
 };
 
-const Modal: React.FC<ModalProps<StyleObj>> = (props) => {
+const Modal: React.FC<ModalProps> = (props) => {
     return (
         <>
             {props.show && <Backdrop onClick={props.onCancel} />}
@@ -71,7 +70,7 @@ const Modal: React.FC<ModalProps<StyleObj>> = (props) => {
                 timeout={200}
                 mountOnEnter
                 unmountOnExit
-                classNames="modal"
+                classNames="modal" // index.css
             >
                 <ModalOverlay {...props} />
             </CSSTransition>

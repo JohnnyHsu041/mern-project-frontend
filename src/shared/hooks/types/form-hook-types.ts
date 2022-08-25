@@ -7,20 +7,17 @@ export type FormState = {
     isValid: boolean;
 };
 
-export interface InputChangeAction {
-    type: string;
+interface InputChangeAction {
+    type: "INPUT_CHANGE";
     inputId: string;
     isValid: boolean;
     value: string;
-    inputs?: any;
 }
 
-export interface SetDataAction {
-    type: string;
+interface SetDataAction {
+    type: "SET_DATA";
     isValid: boolean;
     inputs: InputsObj;
-    inputId?: any;
-    value?: any;
 }
 
 export type Action = InputChangeAction | SetDataAction;

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
+import Card from "../../shared/components/UI/Card";
 import PlaceInfo from "../../models/placeinfo";
 import Button from "../../shared/components/FormElements/Button";
 import Input from "../../shared/components/FormElements/Input";
@@ -68,24 +69,25 @@ const UpdatePlace: React.FC = () => {
         false
     );
 
-    console.log("value: ", formState.inputs.title.value);
-
-    const identifiedPlace = DUMMY_PLACES.find((place) => place.id === placeId); // should be http request later
+    const identifiedPlace = DUMMY_PLACES.find((place) => place.id === placeId);
+    // should be http request later
 
     useEffect(() => {
-        setForm(
-            {
-                title: {
-                    value: identifiedPlace!.title,
-                    isValid: true,
+        if (identifiedPlace) {
+            setForm(
+                {
+                    title: {
+                        value: identifiedPlace!.title,
+                        isValid: true,
+                    },
+                    description: {
+                        value: identifiedPlace!.description,
+                        isValid: true,
+                    },
                 },
-                description: {
-                    value: identifiedPlace!.description,
-                    isValid: true,
-                },
-            },
-            true
-        );
+                true
+            );
+        }
         setIsLoaing(false);
     }, [setForm, identifiedPlace]);
 
@@ -97,7 +99,9 @@ const UpdatePlace: React.FC = () => {
     if (!identifiedPlace) {
         return (
             <div className="center">
-                <h2>Could not find place!</h2>
+                <Card>
+                    <h2>Could not find place!</h2>
+                </Card>
             </div>
         );
     }

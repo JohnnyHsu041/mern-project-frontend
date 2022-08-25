@@ -17,9 +17,17 @@ const PlaceItem: React.FC<PlaceInfo> = ({
     coordinates,
 }) => {
     const [showMap, setShowMap] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     const showMapHandler = () => setShowMap(true);
     const closeMapHandler = () => setShowMap(false);
+
+    const showDeleteModalHandler = () => setShowDeleteModal(true);
+    const closeDeleteModalHandler = () => setShowDeleteModal(false);
+
+    const confirmDeleteHandler = () => {
+        console.log("Deleting...");
+    };
 
     return (
         <>
@@ -34,6 +42,27 @@ const PlaceItem: React.FC<PlaceInfo> = ({
                 <div className={classes["map-container"]}>
                     <Map center={coordinates} zoom={16} />
                 </div>
+            </Modal>
+            <Modal
+                show={showDeleteModal}
+                onCancel={closeDeleteModalHandler}
+                header="Are you sure?"
+                footerClass={`${classes["place-item__modal-actions"]}`}
+                footer={
+                    <>
+                        <Button inverse onClick={closeDeleteModalHandler}>
+                            Cancel
+                        </Button>
+                        <Button danger onClick={confirmDeleteHandler}>
+                            Confirm
+                        </Button>
+                    </>
+                }
+            >
+                <p>
+                    Do you want to proceed and delete this place? Please note
+                    that it cannot be undone thereafter.
+                </p>
             </Modal>
             <li className={classes["place-item"]}>
                 <Card className={classes["place-item__content"]}>
@@ -50,7 +79,9 @@ const PlaceItem: React.FC<PlaceInfo> = ({
                             VIEW ON MAP
                         </Button>
                         <Button to={`/places/${id}`}>EDIT</Button>
-                        <Button danger>DELETE</Button>
+                        <Button danger onClick={showDeleteModalHandler}>
+                            DELETE
+                        </Button>
                     </div>
                 </Card>
             </li>

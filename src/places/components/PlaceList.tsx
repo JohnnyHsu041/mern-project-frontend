@@ -3,6 +3,7 @@ import PlaceInfo from "../../models/placeinfo";
 import PlaceItem from "./PlaceItem";
 
 import classes from "./PlaceList.module.css";
+import Button from "../../shared/components/FormElements/Button";
 
 const PlaceList: React.FC<{ items: PlaceInfo[] }> = ({ items }) => {
     if (items.length === 0) {
@@ -10,7 +11,7 @@ const PlaceList: React.FC<{ items: PlaceInfo[] }> = ({ items }) => {
             <div className={`center ${classes["place-list"]}`}>
                 <Card>
                     <h2>No places found. Maybe create one?</h2>
-                    <button>Share Place</button>
+                    <Button to="/places/new">Share Place</Button>
                 </Card>
             </div>
         );
