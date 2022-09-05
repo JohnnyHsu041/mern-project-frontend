@@ -3,7 +3,7 @@ import UserItem from "./UserItem";
 import Card from "../../shared/components/UI/Card";
 
 interface ItemsProps {
-    items: { id: string; image: string; name: string; places: number }[];
+    items: { id: string; image: string; name: string; places: string[] }[];
 }
 
 const UserList: React.FC<ItemsProps> = ({ items }) => {
@@ -25,7 +25,7 @@ const UserList: React.FC<ItemsProps> = ({ items }) => {
                     id={user.id}
                     image={user.image}
                     name={user.name}
-                    placeCount={user.places}
+                    placeCount={user.places.length}
                 />
             ))}
         </ul>
