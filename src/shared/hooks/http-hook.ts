@@ -2,10 +2,10 @@ import { useCallback, useState, useRef, useEffect } from "react";
 
 type sendReqFunc = (
     url: string,
-    method: string,
-    body: BodyInit | null,
-    headers: { [props: string]: string } | {}
-) => void;
+    method?: string,
+    body?: BodyInit | null,
+    headers?: { [props: string]: string } | {}
+) => any;
 
 export const useHttpClient = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -29,6 +29,10 @@ export const useHttpClient = () => {
                 });
                 const responseData = await response.json();
 
+                activeHttpReqs.current = activeHttpReqs.current.filter(
+                    (reqCtrl) => reqCtrl !== httpAbortCtrl
+                );
+
                 if (!response.ok) throw new Error(responseData.message);
 
                 setIsLoading(false);
@@ -37,6 +41,7 @@ export const useHttpClient = () => {
             } catch (err: any) {
                 setIsLoading(false);
                 setError(err.message);
+                throw err;
             }
         },
         []
