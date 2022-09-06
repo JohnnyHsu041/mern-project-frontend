@@ -6,8 +6,15 @@ import { useForm } from "../../shared/hooks/form-hook";
 import Input from "../../shared/components/FormElements/Input";
 import Button from "../../shared/components/FormElements/Button";
 import classes from "./PlaceForm.module.css";
+import { useHttpClient } from "../../shared/hooks/http-hook";
+import ErrorModal from "../../shared/components/UI/ErrorModal";
+import LoadingSpinner from "../../shared/components/UI/LoadingSpinner";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+import { useHistory as History } from "react-router-dom";
 
 const NewPlace: React.FC = () => {
+    const userId = useSelector((state: RootState) => state.auth.userId);
     const [formState, inputHandler] = useForm(
         {
             title: {
@@ -25,43 +32,78 @@ const NewPlace: React.FC = () => {
         },
         false
     );
+    const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
     const placeSubmitHandler = (event: React.FormEvent) => {
         event.preventDefault();
-        console.log(formState.inputs);
+
+        const addNewPlace = async () => {
+            try {
+                await sendRequest(
+                    "http://localhost:8080/api/places/",
+                    "POST",
+                    JSON.stringify({
+                        title: formState.inputs.title!.value,
+                        description: formState.inputs.description!.value,
+                        address: formState.inputs.address!.value,
+                        creator: userId,
+                    }),
+                    { "Content-Type": "application/json" }
+                );
+
+                // Redirect to a different page
+                const history = History();
+                history.push("/");
+            } catch (err: any) {
+                console.log(err.message);
+            }
+        };
+
+        addNewPlace();
     };
 
     return (
-        <form className={classes["place-form"]} onSubmit={placeSubmitHandler}>
-            <Input
-                id="title"
-                element="input"
-                type="text"
-                label="Title"
-                validators={[VALIDATOR_REQUIRE()]}
-                errorText="Please enter a valid title"
-                onInput={inputHandler}
-            />
-            <Input
-                id="description"
-                element="textarea"
-                label="Description"
-                validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(5)]}
-                errorText="Please enter a valid description (at least 5 characters)"
-                onInput={inputHandler}
-            />
-            <Input
-                id="address"
-                element="input"
-                label="Address"
-                validators={[VALIDATOR_REQUIRE()]}
-                errorText="Please enter a valid address"
-                onInput={inputHandler}
-            />
-            <Button type="submit" disabled={!formState.isValid}>
-                ADD PLACE
-            </Button>
-        </form>
+        <>
+            <ErrorModal error={error} onClear={clearError} />
+            {isLoading && (
+                <div className="center">
+                    <LoadingSpinner asOverlay />
+                </div>
+            )}
+            <form
+                className={classes["place-form"]}
+                onSubmit={placeSubmitHandler}
+            >
+                <Input
+                    id="title"
+                    element="input"
+                    type="text"
+                    label="Title"
+                    validators={[VALIDATOR_REQUIRE()]}
+                    errorText="Please enter a valid title"
+                    onInput={inputHandler}
+                />
+                <Input
+                    id="description"
+                    element="textarea"
+                    label="Description"
+                    validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(5)]}
+                    errorText="Please enter a valid description (at least 5 characters)"
+                    onInput={inputHandler}
+                />
+                <Input
+                    id="address"
+                    element="input"
+                    label="Address"
+                    validators={[VALIDATOR_REQUIRE()]}
+                    errorText="Please enter a valid address"
+                    onInput={inputHandler}
+                />
+                <Button type="submit" disabled={!formState.isValid}>
+                    ADD PLACE
+                </Button>
+            </form>
+        </>
     );
 };
 

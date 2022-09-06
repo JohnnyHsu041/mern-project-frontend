@@ -6,6 +6,7 @@ import { AuthAction } from "../../../store/auth-slice";
 
 const NavLinks: React.FC = () => {
     const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+    const userId = useSelector((state: RootState) => state.auth.userId);
 
     const dispatch = useDispatch();
 
@@ -22,7 +23,10 @@ const NavLinks: React.FC = () => {
             </li>
             {isLoggedIn && (
                 <li>
-                    <NavLink activeClassName={classes.active} to="/u1/places">
+                    <NavLink
+                        activeClassName={classes.active}
+                        to={`/${userId}/places`}
+                    >
                         MY PLACES
                     </NavLink>
                 </li>

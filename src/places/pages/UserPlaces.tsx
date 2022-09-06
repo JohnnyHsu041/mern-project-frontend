@@ -1,54 +1,42 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import PlaceInfo from "../../models/placeinfo";
+import ErrorModal from "../../shared/components/UI/ErrorModal";
+import LoadingSpinner from "../../shared/components/UI/LoadingSpinner";
+import { useHttpClient } from "../../shared/hooks/http-hook";
 import PlaceList from "../components/PlaceList";
-
-const DUMMY_PLACES = [
-    new PlaceInfo(
-        "p1",
-        "Empire State Building",
-        "u1",
-        "https://upload.wikimedia.org/wikipedia/commons/1/10/Empire_State_Building_%28aerial_view%29.jpg",
-        "One of the most famous sky scrappers in the world",
-        "350 Fifth Avenue[a]Manhattan, New York 10118",
-        {
-            lat: 40.748333,
-            lng: -73.985278,
-        }
-    ),
-    new PlaceInfo(
-        "p2",
-        "Empire State Building",
-        "u2",
-        "https://upload.wikimedia.org/wikipedia/commons/1/10/Empire_State_Building_%28aerial_view%29.jpg",
-        "One of the most famous sky scrappers in the world",
-        "350 Fifth Avenue[a]Manhattan, New York 10118",
-        {
-            lat: 40.748333,
-            lng: -73.985278,
-        }
-    ),
-    new PlaceInfo(
-        "p3",
-        "Empire State Building",
-        "u3",
-        "https://upload.wikimedia.org/wikipedia/commons/1/10/Empire_State_Building_%28aerial_view%29.jpg",
-        "One of the most famous sky scrappers in the world",
-        "350 Fifth Avenue[a]Manhattan, New York 10118",
-        {
-            lat: 40.748333,
-            lng: -73.985278,
-        }
-    ),
-];
 
 const UserPlaces: React.FC = () => {
     const userId = useParams<{ userId: string }>().userId;
-    const loadedPlace = DUMMY_PLACES.filter(
-        (place) => place.creatorId === userId
-    );
+    const { isLoading, error, sendRequest, clearError } = useHttpClient();
+    const [loadedPlaces, setLoadedPlaces] = useState<PlaceInfo[]>([]);
 
-    return <PlaceList items={loadedPlace} />;
+    useEffect(() => {
+        const fetchUserPlaces = async () => {
+            try {
+                const responseData = await sendRequest(
+                    `http://localhost:8080/api/places/user/${userId}`
+                );
+
+                setLoadedPlaces(responseData.places);
+            } catch (err) {}
+        };
+
+        fetchUserPlaces();
+    }, [sendRequest, userId]);
+
+    return (
+        <>
+            <ErrorModal error={error} onClear={clearError} />
+            {isLoading && (
+                <div className="center">
+                    <LoadingSpinner asOverlay />
+                </div>
+            )}
+            <PlaceList items={loadedPlaces} />
+        </>
+    );
 };
 
 export default UserPlaces;
