@@ -15,12 +15,12 @@ import {
 } from "../../shared/utils/validators";
 
 import classes from "./Auth.module.css";
+import { useHttpClient } from "../../shared/hooks/http-hook";
 
 const Auth: React.FC = () => {
     const [isLoginMode, setIsLoginMode] = useState(true);
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
     const dispatch = useDispatch();
+    const { sendRequest, isLoading, error, clearError } = useHttpClient();
 
     const [formState, inputHandler, setForm] = useForm(
         {
@@ -66,79 +66,49 @@ const Auth: React.FC = () => {
     const authSubmitHandler = async (event: React.FormEvent) => {
         event.preventDefault();
 
-        setIsLoading(true);
-
         if (isLoginMode) {
             try {
-                const response = await fetch(
+                const responseData = await sendRequest(
                     "http://localhost:8080/api/users/login",
+                    "POST",
+                    JSON.stringify({
+                        email: formState.inputs.email!.value,
+                        password: formState.inputs.password!.value,
+                    }),
                     {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                            email: formState.inputs.email!.value,
-                            password: formState.inputs.password!.value,
-                        }),
+                        "Content-Type": "application/json",
                     }
                 );
-                const responseData = await response.json();
 
-                if (!response.ok) {
-                    // status code: 4xx/ 5xx
-                    throw new Error(responseData.message);
-                }
-
-                setIsLoading(false);
-                dispatch(AuthAction.login());
+                dispatch(AuthAction.login(responseData.user.id));
             } catch (err: any) {
-                setIsLoading(false);
-                setError(
-                    err.message || "Something went wrong, please try again"
-                );
+                console.log(err.message);
             }
         } else {
             try {
-                const response = await fetch(
+                const responseData = await sendRequest(
                     "http://localhost:8080/api/users/signup",
+                    "POST",
+                    JSON.stringify({
+                        name: formState.inputs.name!.value,
+                        email: formState.inputs.email!.value,
+                        password: formState.inputs.password!.value,
+                    }),
                     {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                            name: formState.inputs.name!.value,
-                            email: formState.inputs.email!.value,
-                            password: formState.inputs.password!.value,
-                        }),
+                        "Content-Type": "application/json",
                     }
                 );
-                const responseData = await response.json();
 
-                if (!response.ok) {
-                    // status code: 4xx/ 5xx
-                    throw new Error(responseData.message);
-                }
-
-                setIsLoading(false);
-                dispatch(AuthAction.login());
+                dispatch(AuthAction.login(responseData.user.id));
             } catch (err: any) {
-                setIsLoading(false);
-                setError(
-                    err.message || "Something went wrong, please try again"
-                );
+                console.log(err.message);
             }
         }
     };
 
-    const errorHandler = () => {
-        setError(null);
-    };
-
     return (
         <>
-            <ErrorModal error={error} onClear={errorHandler} />
+            <ErrorModal error={error} onClear={clearError} />
             <Card className={classes.authentication}>
                 {isLoading && <LoadingSpinner asOverlay />}
                 <h2>Login Required</h2>
