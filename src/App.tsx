@@ -1,4 +1,4 @@
-import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import NewPlace from "./places/pages/NewPlace";
@@ -50,10 +50,10 @@ function App() {
     }
 
     return (
-        <BrowserRouter>
+        <>
             <MainNavigation />
             <main>{routes}</main>
-        </BrowserRouter>
+        </>
     );
 }
 
