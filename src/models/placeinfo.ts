@@ -2,7 +2,7 @@ export default class PlaceInfo {
     constructor(
         public id: string,
         public title: string,
-        public creatorId: string,
+        public creator: string,
         public image: string,
         public description: string,
         public address: string,

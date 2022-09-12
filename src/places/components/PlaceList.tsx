@@ -29,7 +29,7 @@ const PlaceList: React.FC<{
                         title={place.title}
                         image={place.image}
                         description={place.description}
-                        creatorId={place.creatorId}
+                        creator={place.creator}
                         coordinates={place.coordinates}
                         address={place.address}
                         onDelete={onDelete}

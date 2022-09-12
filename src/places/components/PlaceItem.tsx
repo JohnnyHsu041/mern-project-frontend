@@ -18,15 +18,14 @@ const PlaceItem: React.FC<PlaceInfo> = ({
     title,
     address,
     description,
-    creatorId,
+    creator,
     coordinates,
     onDelete,
 }) => {
     const [showMap, setShowMap] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const { isLoading, sendRequest, error, clearError } = useHttpClient();
-
-    const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+    const userId = useSelector((state: RootState) => state.auth.userId);
 
     const showMapHandler = () => setShowMap(true);
     const closeMapHandler = () => setShowMap(false);
@@ -100,10 +99,10 @@ const PlaceItem: React.FC<PlaceInfo> = ({
                         <Button inverse onClick={showMapHandler}>
                             VIEW ON MAP
                         </Button>
-                        {isLoggedIn && (
+                        {userId === creator && (
                             <Button to={`/places/${id}`}>EDIT</Button>
                         )}
-                        {isLoggedIn && (
+                        {userId === creator && (
                             <Button danger onClick={showDeleteModalHandler}>
                                 DELETE
                             </Button>
