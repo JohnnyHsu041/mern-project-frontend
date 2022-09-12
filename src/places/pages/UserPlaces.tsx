@@ -34,7 +34,7 @@ const UserPlaces: React.FC = () => {
                     <LoadingSpinner asOverlay />
                 </div>
             )}
-            <PlaceList items={loadedPlaces} />
+            {!isLoading && loadedPlaces && <PlaceList items={loadedPlaces} />}
         </>
     );
 };

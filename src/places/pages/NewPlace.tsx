@@ -15,6 +15,7 @@ import { useHistory as History } from "react-router-dom";
 
 const NewPlace: React.FC = () => {
     const userId = useSelector((state: RootState) => state.auth.userId);
+    const history = History();
     const [formState, inputHandler] = useForm(
         {
             title: {
@@ -52,7 +53,6 @@ const NewPlace: React.FC = () => {
                 );
 
                 // Redirect to a different page
-                const history = History();
                 history.push("/");
             } catch (err: any) {
                 console.log(err.message);
