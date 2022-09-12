@@ -9,6 +9,7 @@ export default class PlaceInfo {
         public coordinates: {
             lat: number;
             lng: number;
-        }
+        },
+        public onDelete?: (placeId: string) => void
     ) {}
 }

@@ -26,6 +26,12 @@ const UserPlaces: React.FC = () => {
         fetchUserPlaces();
     }, [sendRequest, userId]);
 
+    const placeDeleteHandler = (placeId: string) => {
+        setLoadedPlaces((prevState) =>
+            prevState.filter((place) => place.id !== placeId)
+        );
+    };
+
     return (
         <>
             <ErrorModal error={error} onClear={clearError} />
@@ -34,7 +40,9 @@ const UserPlaces: React.FC = () => {
                     <LoadingSpinner asOverlay />
                 </div>
             )}
-            {!isLoading && loadedPlaces && <PlaceList items={loadedPlaces} />}
+            {!isLoading && loadedPlaces && (
+                <PlaceList items={loadedPlaces} onDelete={placeDeleteHandler} />
+            )}
         </>
     );
 };

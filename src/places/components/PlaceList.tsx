@@ -5,7 +5,10 @@ import PlaceItem from "./PlaceItem";
 import classes from "./PlaceList.module.css";
 import Button from "../../shared/components/FormElements/Button";
 
-const PlaceList: React.FC<{ items: PlaceInfo[] }> = ({ items }) => {
+const PlaceList: React.FC<{
+    items: PlaceInfo[];
+    onDelete: (placeId: string) => void;
+}> = ({ items, onDelete }) => {
     if (items.length === 0) {
         return (
             <div className={`center ${classes["place-list"]}`}>
@@ -29,6 +32,7 @@ const PlaceList: React.FC<{ items: PlaceInfo[] }> = ({ items }) => {
                         creatorId={place.creatorId}
                         coordinates={place.coordinates}
                         address={place.address}
+                        onDelete={onDelete}
                     />
                 );
             })}
