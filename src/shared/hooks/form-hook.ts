@@ -55,7 +55,7 @@ export const useForm = (
     });
 
     const inputHandler = useCallback(
-        (id: string, value: string, isValid: boolean) => {
+        (id: string, value: any, isValid: boolean) => {
             dispatch({
                 type: "INPUT_CHANGE",
                 inputId: id,

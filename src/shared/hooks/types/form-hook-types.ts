@@ -1,5 +1,5 @@
 export type InputsObj = {
-    [props: string]: { value: string; isValid: boolean } | undefined;
+    [props: string]: { value: any; isValid: boolean } | undefined;
 };
 
 export type FormState = {
@@ -11,7 +11,7 @@ interface InputChangeAction {
     type: "INPUT_CHANGE";
     inputId: string;
     isValid: boolean;
-    value: string;
+    value: any;
 }
 
 interface SetDataAction {
