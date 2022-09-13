@@ -20,7 +20,7 @@ const ImageUpload: React.FC<ImageUploadProps> = (props) => {
         if (!file) {
             return;
         }
-        console.log("Work");
+
         const fileReader = new FileReader();
         fileReader.onload = () => {
             setPreviewUrl(fileReader.result as string);

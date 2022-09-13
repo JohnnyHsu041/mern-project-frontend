@@ -72,8 +72,6 @@ const Auth: React.FC = () => {
     const authSubmitHandler = async (event: React.FormEvent) => {
         event.preventDefault();
 
-        console.log(formState.inputs);
-
         if (isLoginMode) {
             try {
                 const responseData = await sendRequest(
@@ -98,7 +96,7 @@ const Auth: React.FC = () => {
                 formData.append("name", formState.inputs.name!.value);
                 formData.append("email", formState.inputs.email!.value);
                 formData.append("password", formState.inputs.password!.value);
-                formData.append("image", formState.inputs.image!.value);
+                formData.append("image", formState.inputs.image!.value); //220913 The function of image storage does not work yet
 
                 const responseData = await sendRequest(
                     "http://localhost:8080/api/users/signup",
