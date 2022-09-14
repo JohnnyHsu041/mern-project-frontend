@@ -86,7 +86,12 @@ const Auth: React.FC = () => {
                     }
                 );
 
-                dispatch(AuthAction.login(responseData.user.id));
+                dispatch(
+                    AuthAction.login({
+                        userId: responseData.userId,
+                        token: responseData.token,
+                    })
+                );
             } catch (err: any) {
                 console.log(err.message);
             }
@@ -104,7 +109,12 @@ const Auth: React.FC = () => {
                     formData
                 );
 
-                dispatch(AuthAction.login(responseData.user.id));
+                dispatch(
+                    AuthAction.login({
+                        userId: responseData.userId,
+                        token: responseData.token,
+                    })
+                );
             } catch (err: any) {
                 console.log(err.message);
             }

@@ -12,9 +12,11 @@ import LoadingSpinner from "../../shared/components/UI/LoadingSpinner";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { useHistory as History } from "react-router-dom";
+import { tokenToString } from "typescript";
 
 const NewPlace: React.FC = () => {
     const userId = useSelector((state: RootState) => state.auth.userId);
+    const token = useSelector((state: RootState) => state.auth.token);
     const history = History();
     const [formState, inputHandler] = useForm(
         {
@@ -49,7 +51,10 @@ const NewPlace: React.FC = () => {
                         address: formState.inputs.address!.value,
                         creator: userId,
                     }),
-                    { "Content-Type": "application/json" }
+                    {
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + token,
+                    }
                 );
 
                 // Redirect to a different page
