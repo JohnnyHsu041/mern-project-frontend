@@ -10,22 +10,6 @@ build/
 .AppleDouble
 .LSOverride
 
-=======
-# Created by https://www.toptal.com/developers/gitignore/api/macos,node,dotenv
-# Edit at https://www.toptal.com/developers/gitignore?templates=macos,node,dotenv
-
-build/
-
-### dotenv ###
-.env
-
-### macOS ###
-# General
-.DS_Store
-.AppleDouble
-.LSOverride
-
->>>>>>> d3a3f7f29f8e63cfc3ffcbae30e96e6b4f0a25d1
 # Icon must end with two \r
 Icon
 
@@ -129,10 +113,7 @@ web_modules/
 .yarn-integrity
 
 # dotenv environment variable files
-<<<<<<< HEAD
 .env
-=======
->>>>>>> d3a3f7f29f8e63cfc3ffcbae30e96e6b4f0a25d1
 .env.development.local
 .env.test.local
 .env.production.local
