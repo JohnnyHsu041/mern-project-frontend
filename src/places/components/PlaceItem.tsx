@@ -38,13 +38,12 @@ const PlaceItem: React.FC<PlaceInfo> = ({
         setShowDeleteModal(false);
 
         try {
-            const responseData = await sendRequest(
+            await sendRequest(
                 `http://localhost:8080/api/places/${id}`,
                 "DELETE",
                 null,
                 { Authorization: "Bearer " + token }
             );
-            console.log(responseData.message);
             onDelete!(id);
         } catch (err: any) {
             console.log(err.message);

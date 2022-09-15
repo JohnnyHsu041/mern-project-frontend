@@ -39,8 +39,6 @@ export const useAuth = () => {
             const remainingTime =
                 new Date(tokenExpirationDate).getTime() - new Date().getTime();
 
-            console.log(tokenExpirationDate);
-
             logoutTimer = setTimeout(
                 dispatch.bind(null, AuthAction.logout()),
                 remainingTime
