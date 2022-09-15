@@ -39,7 +39,7 @@ const PlaceItem: React.FC<PlaceInfo> = ({
 
         try {
             await sendRequest(
-                `http://localhost:8080/api/places/${id}`,
+                `${process.env.REACT_APP_BACKEND_URL}places/${id}`,
                 "DELETE",
                 null,
                 { Authorization: "Bearer " + token }

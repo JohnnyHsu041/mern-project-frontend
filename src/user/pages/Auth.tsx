@@ -75,7 +75,7 @@ const Auth: React.FC = () => {
         if (isLoginMode) {
             try {
                 const responseData = await sendRequest(
-                    "http://localhost:8080/api/users/login",
+                    `${process.env.REACT_APP_BACKEND_URL}users/login`,
                     "POST",
                     JSON.stringify({
                         email: formState.inputs.email!.value,
@@ -104,7 +104,7 @@ const Auth: React.FC = () => {
                 formData.append("image", formState.inputs.image!.value); //220913 The function of image storage does not work yet
 
                 const responseData = await sendRequest(
-                    "http://localhost:8080/api/users/signup",
+                    `${process.env.REACT_APP_BACKEND_URL}users/signup`,
                     "POST",
                     formData
                 );

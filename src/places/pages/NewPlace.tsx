@@ -12,7 +12,6 @@ import LoadingSpinner from "../../shared/components/UI/LoadingSpinner";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { useHistory as History } from "react-router-dom";
-import { tokenToString } from "typescript";
 
 const NewPlace: React.FC = () => {
     const userId = useSelector((state: RootState) => state.auth.userId);
@@ -43,7 +42,7 @@ const NewPlace: React.FC = () => {
         const addNewPlace = async () => {
             try {
                 await sendRequest(
-                    "http://localhost:8080/api/places/",
+                    `${process.env.REACT_APP_BACKEND_URL}places/`,
                     "POST",
                     JSON.stringify({
                         title: formState.inputs.title!.value,
