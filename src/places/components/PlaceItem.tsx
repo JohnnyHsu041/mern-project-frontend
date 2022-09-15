@@ -26,6 +26,7 @@ const PlaceItem: React.FC<PlaceInfo> = ({
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const { isLoading, sendRequest, error, clearError } = useHttpClient();
     const userId = useSelector((state: RootState) => state.auth.userId);
+    const token = useSelector((state: RootState) => state.auth.token);
 
     const showMapHandler = () => setShowMap(true);
     const closeMapHandler = () => setShowMap(false);
@@ -39,7 +40,9 @@ const PlaceItem: React.FC<PlaceInfo> = ({
         try {
             const responseData = await sendRequest(
                 `http://localhost:8080/api/places/${id}`,
-                "DELETE"
+                "DELETE",
+                null,
+                { Authorization: "Bearer " + token }
             );
             console.log(responseData.message);
             onDelete!(id);

@@ -23,6 +23,7 @@ const UpdatePlace: React.FC = () => {
     const { isLoading, sendRequest, error, clearError } = useHttpClient();
     const [loadedPlace, setLoadedPlace] = useState<PlaceInfo>();
     const userId = useSelector((state: RootState) => state.auth.userId);
+    const token = useSelector((state: RootState) => state.auth.token);
 
     const [formState, inputHandler, setForm] = useForm(
         {
@@ -79,7 +80,10 @@ const UpdatePlace: React.FC = () => {
                         title: formState.inputs.title!.value,
                         description: formState.inputs.description!.value,
                     }),
-                    { "Content-Type": "application/json" }
+                    {
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + token,
+                    }
                 );
 
                 console.log(responseData.message);

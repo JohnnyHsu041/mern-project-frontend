@@ -1,4 +1,5 @@
 import { Redirect, Route, Switch } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import NewPlace from "./places/pages/NewPlace";
@@ -6,10 +7,12 @@ import Users from "./user/pages/Users";
 import UserPlaces from "./places/pages/UserPlaces";
 import UpdatePlace from "./places/pages/UpatePlace";
 import Auth from "./user/pages/Auth";
-import { useSelector } from "react-redux";
 import { RootState } from "./store/store";
+import { useAuth } from "./shared/hooks/auth-hook";
 
 function App() {
+    useAuth();
+
     const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
 
     let routes: JSX.Element;
